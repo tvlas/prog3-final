@@ -38,6 +38,12 @@ const SearchBar = ({ onSearch }) => {
     }
   };
 
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      handleSearch();
+    }
+  };
+
   const handleSearch = () => {
     onSearch(searchTerm);
     setSuggestions([]);
@@ -63,6 +69,7 @@ const SearchBar = ({ onSearch }) => {
           placeholder="Search for a movie..."
           value={searchTerm}
           onChange={handleInputChange}
+          onKeyDown={handleKeyDown}
           borderRadius="md"
           _focus={{ borderColor: "teal.400", boxShadow: "0 0 0 1px teal.400" }}
           _active={{ borderColor: "teal.400" }}
