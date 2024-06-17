@@ -1,4 +1,18 @@
-import { Box, Flex, Grid, Link, Spinner, Text } from "@chakra-ui/react";
+import { ChevronDownIcon } from "@chakra-ui/icons";
+import {
+  Box,
+  Button,
+  Flex,
+  Grid,
+  Link,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Spinner,
+  Text,
+  useBreakpointValue,
+} from "@chakra-ui/react";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -46,6 +60,32 @@ const Home = () => {
     setCurrentPage(1);
   };
 
+  const renderGenres = (isDropdown = false) =>
+    genres.map((genre) =>
+      isDropdown ? (
+        <MenuItem key={genre.id} onClick={() => handleGenreChange(genre.id)}>
+          {genre.name}
+        </MenuItem>
+      ) : (
+        <Link
+          key={genre.id}
+          onClick={() => handleGenreChange(genre.id)}
+          mb="2"
+          display="block"
+          color={genre.id === selectedGenre ? "white" : "gray.500"}
+          cursor="pointer"
+          _hover={{ color: "white" }}
+          bg={genre.id === selectedGenre ? "gray.600" : "transparent"}
+          p="2"
+          rounded="sm"
+        >
+          {genre.name}
+        </Link>
+      )
+    );
+
+  const isMobile = useBreakpointValue({ base: true, md: false });
+
   return (
     <Box p="4">
       <Head>
@@ -57,44 +97,38 @@ const Home = () => {
         </title>
       </Head>
       <Header onSearch={handleSearch} />
-      <Flex mt="4">
-        <Box
-          w="250px"
-          bg="gray.800"
-          color="white"
-          boxShadow="md"
-          rounded="md"
-          overflow="hidden"
-        >
-          <Text
-            fontWeight="bold"
-            p="4"
-            bg="teal"
-            borderBottomWidth="2px"
-            borderBottomColor="white"
+      <Flex mt="4" direction={{ base: "column", md: "row" }}>
+        {isMobile ? (
+          <Menu>
+            <MenuButton as={Button} rightIcon={<ChevronDownIcon />} mb="4">
+              Select Genre
+            </MenuButton>
+            <MenuList>{renderGenres(true)}</MenuList>
+          </Menu>
+        ) : (
+          <Box
+            w="250px"
+            bg="gray.800"
+            color="white"
+            boxShadow="md"
+            rounded="md"
+            overflow="hidden"
           >
-            Select Genre
-          </Text>
-          <Box as="nav" p="3">
-            {genres.map((genre) => (
-              <Link
-                key={genre.id}
-                onClick={() => handleGenreChange(genre.id)}
-                mb="2"
-                display="block"
-                color={genre.id === selectedGenre ? "white" : "gray.500"}
-                cursor="pointer"
-                _hover={{ color: "white" }}
-                bg={genre.id === selectedGenre ? "gray.600" : "transparent"}
-                p="2"
-                rounded="sm"
-              >
-                {genre.name}
-              </Link>
-            ))}
+            <Text
+              fontWeight="bold"
+              p="4"
+              bg="teal"
+              borderBottomWidth="2px"
+              borderBottomColor="white"
+            >
+              Select Genre
+            </Text>
+            <Box as="nav" p="3">
+              {renderGenres()}
+            </Box>
           </Box>
-        </Box>
-        <Box flex="1" pl="4">
+        )}
+        <Box flex="1" pl={{ base: "0", md: "4" }}>
           {loading && (
             <Flex justify="center" align="center" h="100vh">
               <Spinner />
