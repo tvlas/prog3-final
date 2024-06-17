@@ -52,12 +52,6 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
         >
           Next
         </Button>
-        <Button
-          onClick={() => handleClick(totalPages)}
-          disabled={currentPage === totalPages}
-        >
-          Last
-        </Button>
       </ButtonGroup>
     </Box>
   );
