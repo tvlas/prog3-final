@@ -18,7 +18,7 @@ const Header = ({ onSearch }) => {
       <Heading as="h1" size="lg">
         Movies Database
       </Heading>
-      <Box w="40%">
+      <Box w="30%">
         <SearchBar onSearch={onSearch} />
       </Box>
       <Link href="/team" passHref>
