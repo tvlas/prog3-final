@@ -1,4 +1,5 @@
 import { Box, Flex, Grid, Link, Spinner, Text } from "@chakra-ui/react";
+import Head from "next/head";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "../components/Header";
@@ -47,6 +48,14 @@ const Home = () => {
 
   return (
     <Box p="4">
+      <Head>
+        <title>
+          My Movies |{" "}
+          {selectedGenre
+            ? genres.find((g) => g.id === selectedGenre).name
+            : "All Genres"}
+        </title>
+      </Head>
       <Header onSearch={handleSearch} />
       <Flex mt="4">
         <Box
